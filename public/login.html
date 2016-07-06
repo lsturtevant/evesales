@@ -1,0 +1,56 @@
+<div class="col-md-4 col-md-offset-4">
+  <div ng-show="loginCtrl.loginMode">
+    <div class="form-container">
+      <div ng-show="loginCtrl.loginError" class="alert alert-danger">{{loginCtrl.loginError}}</div>
+      <form name="login_form" ng-submit="loginCtrl.login()" role="form" novalidate>
+      <div class="form-group">
+        <label for="username">User Name</label>
+        <input type="text" name="userName" id="userName" placeholder="Your name" class="form-control" ng-model="loginCtrl.userName" ng-minlength="3" required />
+        <span ng-show="login_form.userName.$dirty && login_form.userName.$error.required" class="help-block">a user name is required</span>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="******" class="form-control" ng-model="loginCtrl.password" ng-minlength="3" ng-maxlength="24" required />
+        <span ng-show="login_form.password.$dirty && login_form.password.$error.required" class="help-block">Password is required</span>
+      </div>
+      <div class="form-actions">
+        <button type="submit" ng-disabled="login_form.$invalid || loginCtrl.loginSubmitting" class="btn btn-danger">Login</button>
+        <img ng-if="loginCtrl.loginSubmitting" src="images/loading-small.gif"/>
+      </div>
+    </form>
+    </div>
+    <div class="message-box">
+      <p>Don't have an account? <a ng-click="loginCtrl.switchModes(login_form)">Register Now</a></p>
+    </div>
+  </div>
+
+  <div ng-show="!loginCtrl.loginMode">
+    <div ng-show="loginCtrl.registerError" class="alert alert-danger">{{loginCtrl.registerError}}</div>
+    <div class="form-container">
+      <form name="register_form" ng-submit="loginCtrl.register()" role="form" novalidate>
+      <div class="form-group">
+        <label for="userName">User Name</label>
+        <input type="text" name="userName" id="userName" placeholder="Your name" class="form-control" ng-model="loginCtrl.userName" ng-minlength="3" required />
+        <span ng-show="register_form.userName.$dirty && register_form.userName.$error.required" class="help-block">A user name is required</span>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="******" class="form-control" ng-model="loginCtrl.password" ng-minlength="3" ng-maxlength="24" required />
+        <span ng-show="register_form.password.$dirty && register_form.password.$error.required" class="help-block">Password is required</span>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="you@example.com" class="form-control" ng-model="loginCtrl.email" required />
+        <span ng-show="register_form.email.$dirty && register_form.email.$error.required" class="help-block">Email is required</span>
+      </div>
+      <div class="form-actions">
+        <button type="submit" ng-disabled="register_form.$invalid || loginCtrl.registerSubmitting" class="btn btn-danger">Register</button>
+        <img ng-if="loginCtrl.registerSubmitting" src="images/loading-small.gif"/>
+      </div>
+    </form>
+    </div>
+    <div class="message-box">
+      <p>Already have an account? <a ng-click="loginCtrl.switchModes(register_form)">Login</a></p>
+    </div>
+  </div>
+</div>
