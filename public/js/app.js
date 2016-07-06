@@ -8,7 +8,8 @@
 
     $routeProvider.when('/', {
       templateUrl: 'main.html',
-      controller: 'MainController'
+      controller: 'MainController',
+      controllerAs: 'mainCtrl'
     });
 
     $routeProvider.when('/login', {
@@ -17,7 +18,7 @@
       controllerAs: 'loginCtrl'
     });
 
-    $routeProvider.otherwise({ redirectTo: '/login' });
+    $routeProvider.otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode(true);
   });

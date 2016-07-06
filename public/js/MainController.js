@@ -1,15 +1,18 @@
 (function() {
   "use strict";
 
-  function MainController($cookies) {
+  function MainController(AuthenticationService) {
 
-    this.$cookies = $cookies;
+    this.AuthenticationService = AuthenticationService;
 
-    console.log(this.$cookies.get('globals'));
-    console.log(JSON.stringify(this.$cookies.get('globals')));
+  };  // MainController()
 
-  }  // MainController()
+  MainController.prototype.logOut = function() {
+    console.log('in logout');
+    this.AuthenticationService.clear();
+  };  // logOut()
 
-  angular.module('tracker').controller('MainController', ['$cookies', MainController]);
+
+  angular.module('tracker').controller('MainController', ['AuthenticationService', MainController]);
 
 })();

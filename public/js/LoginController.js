@@ -1,3 +1,6 @@
+/* global console, angular */
+
+
 (function() {
   "use strict";
 
@@ -16,7 +19,7 @@
     this.userName = null;
     this.password = null;
     this.email = null;
-  }  // LoginController()
+  };  // LoginController()
 
   /**
    *
@@ -26,22 +29,22 @@
     this.registerSubmitting = true;
     this.AuthenticationService.clear();
 
-    console.log("in register");
     this.AuthenticationService.register(this.userName, this.password, this.email);
     this.AuthenticationService.success(LoginController.prototype.registerSuccess.bind(this));
     this.AuthenticationService.error(LoginController.prototype.registerError.bind(this));
-  }  // register()
+  };  // register()
 
   /**
    *
    */
   LoginController.prototype.registerSuccess = function() {
 
+    console.log('got registerSuccess ');
+
     this.registerSubmitting = false;
     this.registerError = null;
-    console.log('got registerSuccess ');
     this.$location.path('/');
-  }  // registerSuccess()
+  };  // registerSuccess()
 
   /**
    *
@@ -50,8 +53,8 @@
 
     this.registerSubmitting = false;
     this.registerError = message;
-    console.log('got registerError ' + message);
-  }  // registerError()
+    console.log('got registerError ' + JSON.stringify(response));
+  };  // registerError()
 
   /**
    *
@@ -61,11 +64,10 @@
     this.loginSubmitting = true;
     this.AuthenticationService.clear();
 
-    console.log("in login");
     this.AuthenticationService.login(this.userName, this.password);
     this.AuthenticationService.success(LoginController.prototype.loginSuccess.bind(this));
     this.AuthenticationService.error(LoginController.prototype.loginError.bind(this));
-  }  // login()
+  };  // login()
 
   /**
    *
@@ -76,7 +78,7 @@
     this.loginError = null;
     console.log('got loginSuccess ');
     this.$location.path('/');
-  }  // loginSuccess()
+  };  // loginSuccess()
 
   /**
    *
@@ -86,7 +88,7 @@
     this.loginSubmitting = false;
     this.loginError = message;
     console.log('got loginError ' + message);
-  }  // loginError()
+  };  // loginError()
 
   LoginController.prototype.switchModes = function(form) {
 
@@ -94,7 +96,7 @@
     this.password = null;
     this.email = null;
     this.loginMode = !this.loginMode;
-  }  // switchModes()
+  };  // switchModes()
 
   // Add our controller to the app and we're ready to go.
   angular.module('tracker').controller('LoginController', ['AuthenticationService', '$location', LoginController]);

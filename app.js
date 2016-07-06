@@ -21,9 +21,9 @@ db.serialize(function() {
          '"user_name" VARCHAR(32), ' +
          '"password" VARCHAR(32), ' +
          'UNIQUE(user_name))', function(error) {
-        if(error !== null)
-          console.log(error);
-  });
+           if(error !== null)
+             console.log(error);
+         });
 });
 
 /**
@@ -59,45 +59,45 @@ app.configure('production', function(){
  *
  */
 app.post('/register', function(req, res) {
+
   db.serialize(function() {
+    
+    var responseData;
 
-  var responseData;
+    responseData = new Object();
+    responseData.success = false;
+    responseData.message = '';
 
-  responseData = new Object();
-  responseData.success = false;
-  responseData.message = '';
-
-  if(!req.body.userName || !req.body.password) {
-    responseData.messae = 'A name and password are required';
-    res.send(responseData);
-    return;
-  }  // 
-
-  // TODO salt password
-
-  db.all('SELECT user_name FROM users WHERE ' +
-         'user_name=$userName;', {
-           $userName: req.body.userName
-         },
-    function(error, rows) {
-      if(!error) {
-        console.log('got rows ' + rows.length);
-        if(rows.length == 0)
-          db.run('INSERT into users(user_name, password) VALUES (?, ?);',
-                 req.body.userName, req.body.password,
-            function(error) {
-              if(!error)
-                responseData.success = true;
-              else
-                console.log(error);
-           });
-         else
-           responseData.message = 'User already exists';
-       }  // if
-      else
-        console.log(error);
+    if(!req.body.userName || !req.body.password) {
+      responseData.messae = 'A name and password are required';
       res.send(responseData);
-    });
+      return;
+    }  // 
+
+    // TODO salt password
+
+    db.all('SELECT user_name FROM users WHERE ' +
+           'user_name=$userName;', {
+             $userName: req.body.userName
+           },
+           function(error, rows) {
+             if(!error) {
+               console.log('got rows ' + rows.length);
+               if(rows.length == 0) {
+                 responseData.success = true;
+                 db.run('INSERT into users(user_name, password) VALUES (?, ?);',
+                        req.body.userName, req.body.password,
+                        function(error) {
+                          console.log(error);
+                        });
+               }  // if
+               else
+                 responseData.message = 'User already exists';
+             }  // if
+             else
+               console.log(error);
+             res.send(responseData);
+           });
   });
 
   console.log("in reg " + req);
@@ -137,6 +137,17 @@ app.post('/login', function(req, res) {
 
            res.send(responseData);
          });
+});
+
+var path = require('path');
+/**
+ *
+ */
+app.get('/*', function(req, res) {
+
+  // hack to get around a bug in node
+  var filepath = '/home/dragor/src/evesales/public/index.html';
+  res.sendfile(path.basename(filepath), {root: path.dirname(filepath)}); 
 });
 
 /**
