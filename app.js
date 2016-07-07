@@ -131,7 +131,7 @@ app.post('/login', function(req, res) {
                responseData.token = 'JWT ' + jwt.encode(req.body.userName, module.exports.secret);
              }
              else
-               responseData.message = 'User not found';
+               responseData.message = 'User name or password incorrect';
 
            }
 
