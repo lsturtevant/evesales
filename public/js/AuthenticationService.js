@@ -6,8 +6,6 @@
    */
   function AuthenticationService($http, $cookies) {
 
-    var globals;
-
     this.$http = $http;
     this.$cookies = $cookies;
     this.token = $cookies.get('token');
